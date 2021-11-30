@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstddef>
 
 /*****************************************************************************
  * Dijkstra's 3-way partitioning sort.
@@ -16,7 +17,7 @@ void ThreeWayPartitioningSort(Container& a, int low, int high)
 	int lt = low;
 	int gt = high;
 	auto v = a[low];
-	int i = low;
+	int i = low + 1;
 	while ( i <= gt )
 	{
 		if      ( a[i] < v )  swap(a[lt++], a[i++]);

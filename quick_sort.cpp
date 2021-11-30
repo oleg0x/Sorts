@@ -22,9 +22,9 @@ int Partition1(Container& a, int low, int high)
 	{
 		while ( a[++i] < a[low] )  // find item on left to swap
 			if ( i == high )  break;
-		while ( a[low] < a[--j] ) ;  // find item on right to swap
-//			if ( j == low )  break;  // This is redundant
-		if ( i >= j )  break;  // check if pointers cross
+		while ( a[low] < a[--j] )  // find item on right to swap
+			if ( j == low )  break;
+		if ( i >= j )  break;      // check if pointers cross
 		swap(a[i], a[j]);
 	}
 	swap(a[low], a[j]);  // swap with partitioning item
@@ -58,10 +58,10 @@ void QuickSort1(Container& a)
 
 
 template <typename Container>
-auto MedianOfThree(Container& a, int lo, int hi)
+auto MedianOfThree(Container& a, size_t lo, size_t hi)
 {
 	using std::swap;
-	int mid = (lo + hi) / 2;
+	size_t mid = (lo + hi) / 2;
 	if ( a[mid] < a[lo] )  swap(a[lo], a[mid]);
 	if ( a[hi] < a[lo] )   swap(a[lo], a[hi]);
 	if ( a[hi] < a[mid] )  swap(a[mid], a[hi]);
@@ -71,18 +71,18 @@ auto MedianOfThree(Container& a, int lo, int hi)
 
 
 template <typename Container>
-int Partition2(Container& a, int low, int high)
+size_t Partition2(Container& a, size_t low, size_t high)
 {
 	using std::swap;
 //	auto pivot = a[(low + high) / 2];  // Instead of a[low]
 	auto pivot = MedianOfThree(a, low, high);  // Instead of a[low]
-	int i = low - 1;
-	int j = high + 1;
+	size_t i = low - 1;
+	size_t j = high + 1;
 	while ( true )
 	{
 		while ( a[++i] < pivot ) ; // find item on left to swap
 		while ( pivot < a[--j] ) ; // find item on right to swap
-		if ( i >= j )  return j;  // check if pointers cross
+		if ( i >= j )  return j;   // check if pointers cross
 		swap(a[i], a[j]);
 	}
 }
@@ -105,15 +105,15 @@ void InsSort(Container& a, size_t low, size_t high)  // Use for small subarrays
 
 
 template <typename Container>
-void QuickSort2(Container& a, int low, int high)
+void QuickSort2(Container& a, size_t low, size_t high)
 {
-	const int cutoff = 15;  // Cutoff to insertion sort for ≈ 10 items.
+	const uint8_t cutoff = 15;  // Cutoff to insertion sort for ≈ 10 items.
 	if ( high <= low + cutoff )
 	{
 		InsSort(a, low, high);
 		return;
 	}
-	int j = Partition2(a, low, high);
+	size_t j = Partition2(a, low, high);
 	QuickSort2(a, low, j);
 	QuickSort2(a, j + 1, high);
 }

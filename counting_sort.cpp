@@ -14,10 +14,12 @@ template <typename Container>
 void CountingSort1(Container& a)
 {
 	const uint32_t max = *max_element(a.begin(), a.end());
-	std::vector<std::uint32_t> counts(max + 1, 0);
+	std::vector<uint32_t> counts(max + 1, 0);
+
 	for ( auto item : a )  ++counts[item];
-	for ( std::uint32_t i = 0, k = 0; i <= max; ++i )
-		for ( std::uint32_t j = 0; j < counts[i]; ++j )
+
+	for ( uint32_t i = 0, k = 0; i <= max; ++i )
+		for ( uint32_t j = 0; j < counts[i]; ++j )
 			a[k++] = i;
 }
 
@@ -26,17 +28,15 @@ void CountingSort1(Container& a)
 template <typename Container>
 void CountingSort2(Container& a)
 {
-	int min_elem = a[0];
-	int max_elem = a[0];
-	for ( uint32_t i = 1; i < a.size(); ++i )
-	{
-		if ( a[i] < min_elem )  min_elem = a[i];
-		if ( a[i] > max_elem )  max_elem = a[i];
-	}
-	std::vector<std::uint32_t> counts(max_elem - min_elem + 1, 0);
+	const auto [min_it, max_it] = std::minmax_element(begin(a), end(a));
+	const int min_elem = *min_it;
+	const int max_elem = *max_it;
+
+	std::vector<uint32_t> counts(max_elem - min_elem + 1, 0);
 	for ( int item : a )  ++counts[item - min_elem];
+
 	for ( int i = min_elem, k = 0; i <= max_elem; ++i )
-		for ( std::uint32_t j = 0; j < counts[i - min_elem]; ++j )
+		for ( uint32_t j = 0; j < counts[i - min_elem]; ++j )
 			a[k++] = i;
 }
 
